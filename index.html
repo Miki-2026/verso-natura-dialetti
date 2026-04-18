@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Verso Natura Dialetti</title>
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Verso Natura">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg:        #f7f7f5;
+            --surface:   #ffffff;
+            --surface2:  #f0f0ed;
+            --border:    #e2e2de;
+            --border2:   #d0d0ca;
+            --text:      #1c1c1a;
+            --text-mid:  #5a5a55;
+            --text-soft: #9a9a94;
+            --gold:      #b8912a;
+            --gold-light:#f0e4b8;
+            --gold-bg:   #faf6e8;
+            --accent:    #2a6db8;
+            --danger:    #c0392b;
+            --success:   #2e7d4f;
+
+            --ariola:    #c4622d;
+            --brognaturo:#2e7d4f;
+            --simbario:  #b8912a;
+
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.07);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.09);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.11);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ─── LOGIN ─── */
+        #login-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(160deg, #fdfcf8 0%, #ede9df 100%);
+        }
+
+        .login-emblem {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 2px 8px rgba(184,145,42,0.2));
+        }
+
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .login-subtitle {
+            font-style: italic;
+            color: var(--gold);
+            font-size: 1rem;
+            margin-top: 0.4rem;
+            letter-spacing: 0.08em;
+        }
+
+        .login-divider {
+            width: 48px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 1rem auto 1.8rem;
+        }
+
+        .login-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .login-label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--gold);
+            margin-bottom: 7px;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .login-input {
+            width: 100%;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 11px 14px;
+            color: var(--text);
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.05rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 1.2rem;
+        }
+
+        .login-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(184,145,42,0.12);
+        }
+
+        .paese-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 1.4rem;
+        }
+
+        .paese-btn {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 11px 4px;
+            color: var(--text-mid);
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .paese-btn:hover { border-color: var(--border2); background: var(--surface2); }
+        .paese-btn.selected[data-paese="Ariola"]     { background: #fdf0ea; border-color: var(--ariola); color: var(--ariola); }
+        .paese-btn.selected[data-paese="Brognaturo"] { background: #e8f5ee; border-color: var(--brognaturo); color: var(--brognaturo); }
+        .paese-btn.selected[data-paese="Simbario"]   { background: var(--gold-bg); border-color: var(--simbario); color: var(--simbario); }
+
+        .btn-entra {
+            width: 100%;
+            background: var(--text);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 13px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: all 0.2s;
+        }
+
+        .btn-entra:hover { background: #2e2e2a; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .btn-entra:active { transform: translateY(0); }
+
+        .login-error {
+            color: var(--danger);
+            font-size: 0.82rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* ─── APP ─── */
+        #app { display: none; min-height: 100vh; flex-direction: column; }
+
+        /* ─── HEADER ─── */
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0.7rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-brand em {
+            font-size: 0.74rem;
+            color: var(--gold);
+            font-style: italic;
+            font-family: 'Crimson Pro', serif;
+            font-weight: 400;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .paese-dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .btn-sm {
+            background: var(--surface2);
+            border: 1.5px solid var(--border2);
+            border-radius: 8px;
+            padding: 6px 11px;
+            color: var(--text-mid);
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+        .btn-sm:hover { background: var(--border); }
+        .btn-sm.primary {
+            background: var(--text);
+            border-color: var(--text);
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+        .btn-sm.primary:hover { background: #2e2e2a; }
+
+        /* ─── TABS ─── */
+        .tabs {
+            display: flex;
+            align-items: stretch;
+            background: var(--surface);
+            border-bottom: 2px solid var(--border2);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 11px 6px;
+            text-align: center;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            color: var(--text-mid);
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .tab-btn:hover { color: var(--text); background: var(--surface2); }
+        .tab-btn.active {
+            color: var(--text);
+            border-bottom-color: var(--gold);
+            background: var(--gold-bg);
+        }
+
+        .tab-nuovo {
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-left: 1px solid var(--border2);
+        }
+
+        /* Pannelli tab: nascosti di default, visibili solo con .tab-active */
+        .tab-panel { display: none !important; }
+        .tab-panel.tab-active { display: block !important; }
+
+        /* ─── MAIN ─── */
+        main {
+            flex: 1;
+            padding: 1.2rem 1rem;
+            max-width: 640px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--text);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .paese-indicator {
+            font-size: 0.68rem;
+            font-style: normal;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-family: 'Crimson Pro', serif;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #7a6010;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .field {
+            width: 100%;
+            background: var(--surface);
+            border: 2px solid var(--border2);
+            border-radius: 8px;
+            padding: 10px 13px;
+            color: var(--text);
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 1rem;
+        }
+
+        .field:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,145,42,0.13); }
+
+        textarea.field { resize: none; line-height: 1.7; min-height: 100px; }
+
+        .row-termine-note {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: start;
+            margin-bottom: 0;
+        }
+
+        .row-termine-note .field { margin-bottom: 0; }
+
+        .note-inline {
+            min-width: 140px;
+            max-width: 180px;
+        }
+
+        .note-inline .label { font-size: 0.62rem; }
+        .note-inline .field {
+            font-size: 0.85rem;
+            padding: 10px 10px;
+            border-style: dashed;
+            color: var(--text-mid);
+        }
+
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        /* ─── AUDIO ─── */
+        .audio-row {
+            background: var(--gold-bg);
+            border: 1.5px dashed var(--gold-light);
+            border-radius: 8px;
+            padding: 9px 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .audio-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); flex: 1; font-weight: 700; }
+        .audio-status { font-size: 0.72rem; color: var(--text-soft); }
+        .audio-status.has-audio { color: var(--success); font-weight: 600; }
+
+        .btn-audio {
+            width: 33px; height: 33px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .btn-rec  { background: var(--danger); color: white; }
+        .btn-stop { background: var(--text); color: white; display: none; }
+        .btn-play { background: var(--success); color: white; opacity: 0.3; pointer-events: none; }
+        .btn-play.active { opacity: 1; pointer-events: auto; }
+        .btn-del-a { background: var(--surface2); border: 1px solid var(--border); color: var(--text-mid); }
+
+        /* ─── ACTIONS ─── */
+        .form-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 9px 18px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.93rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-save   { background: var(--text); color: white; }
+        .btn-save:hover { background: #2e2e2a; box-shadow: var(--shadow-md); }
+        .btn-clear  { background: var(--surface2); color: var(--text-mid); border: 1px solid var(--border); }
+        .btn-clear:hover { background: var(--border); }
+        .btn-delete { background: white; color: var(--danger); border: 1.5px solid #e8c4be; }
+        .btn-delete:hover { background: #fdf0ee; }
+
+        /* ─── ARCHIVIO ─── */
+        .archive-filter {
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 13px;
+            color: var(--text);
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            width: 100%;
+            outline: none;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+        .archive-filter:focus { border-color: var(--gold); }
+
+        .archive-list { display: flex; flex-direction: column; gap: 8px; }
+
+        .archive-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 13px 15px;
+            cursor: pointer;
+            transition: all 0.18s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .archive-card:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .archive-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+
+        .archive-term {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--text);
+        }
+
+        .archive-significato {
+            font-style: italic;
+            color: var(--text-soft);
+            font-size: 0.87rem;
+        }
+
+        .archive-dialetto-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            margin-bottom: 7px;
+        }
+
+        .archive-dialetto-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .archive-dialetto-forma {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.92rem;
+            font-style: italic;
+            color: var(--text);
+        }
+
+        .archive-dialetto-correlati {
+            font-size: 0.78rem;
+            color: var(--text-soft);
+        }
+
+        .archive-dialetto-sep {
+            color: var(--border2);
+            font-size: 0.8rem;
+        }
+
+        .varianti-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+
+        .chip {
+            font-size: 0.68rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        .chip-ariola     { background: #fdf0ea; color: var(--ariola);     border: 1px solid #f0c4a8; }
+        .chip-brognaturo { background: #e8f5ee; color: var(--brognaturo); border: 1px solid #a8d4b8; }
+        .chip-simbario   { background: var(--gold-bg); color: var(--simbario); border: 1px solid var(--gold-light); }
+
+
+        .detail-header {
+            margin-bottom: 1.4rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-termine {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: var(--text);
+            font-style: italic;
+        }
+
+        .variante-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .variante-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 9px;
+        }
+
+        .variante-paese {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
+
+        .variante-forma {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .variante-detail {
+            font-size: 0.87rem;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        .variante-detail strong { color: var(--text); font-style: italic; }
+
+        .btn-play-small {
+            background: var(--success);
+            border: none;
+            border-radius: 6px;
+            width: 27px; height: 27px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.72rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn-edit-variante {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            padding: 3px 10px;
+            color: var(--text-mid);
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-edit-variante:hover { background: var(--border); }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.88rem;
+            cursor: pointer;
+            padding: 0;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .empty-variante {
+            text-align: center;
+            padding: 10px;
+            color: var(--text-soft);
+            font-style: italic;
+            font-size: 0.84rem;
+        }
+
+        .gold-line {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+            margin: 1rem 0;
+        }
+
+        /* ─── TOAST ─── */
+        #toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.93rem;
+            display: none;
+            z-index: 9000;
+            white-space: nowrap;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ─── CONFIRM ─── */
+        #custom-confirm {
+            position: fixed; inset: 0;
+            background: rgba(28,28,26,0.45);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 8000;
+            padding: 1rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .confirm-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .confirm-msg {
+            color: var(--text);
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            margin-bottom: 1.4rem;
+            line-height: 1.5;
+        }
+
+        .confirm-btns { display: flex; gap: 10px; justify-content: center; }
+
+        /* ─── LOADING ─── */
+        #loading-overlay {
+            position: fixed; inset: 0;
+            background: #fdfcf8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            transition: opacity 0.5s;
+        }
+
+        .loader-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .spinner {
+            width: 34px; height: 34px;
+            border: 2px solid var(--gold-light);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── FIREBASE NOTICE ─── */
+        #firebase-notice {
+            background: #fdf0ee;
+            border: 1px solid #f0c4b8;
+            border-radius: 10px;
+            padding: 13px 15px;
+            margin-bottom: 1rem;
+            font-size: 0.84rem;
+            line-height: 1.6;
+            color: var(--danger);
+        }
+
+        #firebase-notice strong { display: block; margin-bottom: 4px; color: #8b2010; }
+        #firebase-notice code {
+            background: rgba(0,0,0,0.05);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.78rem;
+            color: var(--text);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-overlay">
+    <div style="font-size:2.5rem;">🌿</div>
+    <div class="loader-text">Verso Natura Dialetti</div>
+    <div class="spinner" style="margin-top:1.5rem;"></div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-screen" style="display:none;">
+    <div class="login-emblem">🌿</div>
+    <h1 class="login-title">Verso Natura<br>Dialetti</h1>
+    <p class="login-subtitle">Ariola · Brognaturo · Simbario</p>
+    <div class="login-divider"></div>
+
+    <div class="login-card">
+        <label class="login-label">Password</label>
+        <input type="password" id="login-password" class="login-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+
+        <label class="login-label">Sei di...</label>
+        <div class="paese-grid">
+            <button class="paese-btn" data-paese="Ariola" onclick="selectPaese(this)">🏘️<br>Ariola</button>
+            <button class="paese-btn" data-paese="Brognaturo" onclick="selectPaese(this)">🌲<br>Brognaturo</button>
+            <button class="paese-btn" data-paese="Simbario" onclick="selectPaese(this)">⛰️<br>Simbario</button>
+        </div>
+
+        <button class="btn-entra" onclick="doLogin()">Entra →</button>
+        <div class="login-error" id="login-error">Password errata o paese non selezionato.</div>
+    </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+    <header>
+        <div class="header-top">
+            <div class="header-brand">🌿 Verso Natura <em>dialetti</em></div>
+            <div class="user-badge">
+                <span id="user-paese-dot" class="paese-dot"></span>
+                <span id="user-paese-name" style="color:var(--text-mid); font-size:0.82rem;"></span>
+                <button class="btn-sm" onclick="doLogout()">Esci</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" id="tab-btn-inserisci" onclick="showTab('inserisci')">✏️ Inserisci</button>
+        <button class="tab-btn" id="tab-btn-archivio" onclick="showTab('archivio')">📚 Archivio</button>
+        <button class="tab-btn" id="tab-btn-dettaglio" onclick="showTab('dettaglio')">🔍 Termine</button>
+        <div class="tab-nuovo">
+            <button class="btn-sm primary" onclick="clearAll(); showTab('inserisci')">+ Nuovo</button>
+        </div>
+    </div>
+
+    <main>
+
+        <!-- TAB INSERISCI -->
+        <div id="tab-inserisci" class="tab-panel">
+            <div id="firebase-notice" style="display:none;">
+                <strong>⚠️ Configurazione Firebase richiesta</strong>
+                Apri il file in un editor di testo e sostituisci i valori nella sezione <code>FIREBASE CONFIG</code> con le credenziali del tuo progetto Firebase.
+            </div>
+
+            <div class="section-title">
+                Scheda Termine
+                <span class="paese-indicator" id="paese-indicator-label"></span>
+            </div>
+
+            <div class="row-termine-note">
+                <div>
+                    <label class="label">Parola italiana di riferimento *</label>
+                    <input type="text" id="f_termine" class="field" placeholder="es. bastone, luna calante…">
+                </div>
+                <div class="note-inline">
+                    <label class="label">Termini correlati</label>
+                    <input type="text" id="f_note" class="field" placeholder="es. verga, mazza…">
+                </div>
+            </div>
+            <div style="margin-bottom:1rem;"></div>
+
+            <div class="row-termine-note">
+                <div>
+                    <label class="label">Come si dice nel tuo dialetto *</label>
+                    <input type="text" id="f_variante" class="field" placeholder="es. mazzarella, mancanza…">
+                </div>
+                <div class="note-inline">
+                    <label class="label">Termini correlati dialetto</label>
+                    <input type="text" id="f_note_variante" class="field" placeholder="es. mazzolu…">
+                </div>
+            </div>
+            <div style="margin-bottom:1rem;"></div>
+
+            <label class="label">Significati (separati da virgola) *</label>
+            <input type="text" id="f_significato" class="field" placeholder="es. bastoncino, bacchetta">
+
+            <div class="audio-row">
+                <span class="audio-label">🎙️ Pronuncia Audio</span>
+                <span class="audio-status" id="audioStatus">Nessun audio</span>
+                <button class="btn-audio btn-rec" id="recBtn" onclick="startRecording()" title="Registra">●</button>
+                <button class="btn-audio btn-stop" id="stopBtn" onclick="stopRecording()" title="Stop">■</button>
+                <button class="btn-audio btn-play" id="playBtn" onclick="playAudio()" title="Ascolta">▶</button>
+                <button class="btn-audio btn-del-a" onclick="deleteAudio()" title="Elimina">🗑</button>
+            </div>
+
+            <div class="row-2">
+                <div>
+                    <label class="label">Esempio d'uso</label>
+                    <textarea id="f_esempio" class="field" rows="4" placeholder="Frase di esempio nel dialetto..."></textarea>
+                </div>
+                <div>
+                    <label class="label">Traduzione italiana</label>
+                    <textarea id="f_traduzione" class="field" rows="4" placeholder="Traduzione dell'esempio..."></textarea>
+                </div>
+            </div>
+
+            <div class="gold-line"></div>
+
+            <div class="form-actions">
+                <button class="btn-action btn-delete" onclick="removeVariante()">🗑️ Elimina</button>
+                <button class="btn-action btn-clear" onclick="clearAll()">🧹 Pulisci</button>
+                <button class="btn-action btn-save" onclick="saveTermine()">💾 Salva</button>
+            </div>
+        </div>
+
+        <!-- TAB ARCHIVIO -->
+        <div id="tab-archivio" class="tab-panel">
+            <div class="section-title">Archivio Termini</div>
+            <input type="text" class="archive-filter" id="archiveFilter" placeholder="Filtra per termine..." oninput="filterArchive(this.value)">
+            <div class="archive-list" id="archive-list">
+                <p style="text-align:center; color:var(--text-soft); font-style:italic; margin-top:2rem;">Caricamento...</p>
+            </div>
+        </div>
+
+        <!-- TAB DETTAGLIO -->
+        <div id="tab-dettaglio" class="tab-panel">
+            <button class="btn-back" onclick="showTab('archivio')">← Torna all'archivio</button>
+            <div class="detail-header">
+                <div class="detail-termine" id="detail-termine"></div>
+                <div class="varianti-chips" style="margin-top:8px;" id="detail-chips"></div>
+            </div>
+            <div id="detail-varianti"></div>
+        </div>
+
+    </main>
+</div>
+
+<!-- CONFIRM -->
+<div id="custom-confirm">
+    <div class="confirm-box">
+        <div class="confirm-msg" id="confirm-msg"></div>
+        <div class="confirm-btns">
+            <button class="btn-action btn-save" id="confirm-yes">Sì</button>
+            <button class="btn-action btn-clear" id="confirm-no">No</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FIREBASE CONFIG — sostituisci con i tuoi valori!
+     console.firebase.google.com → Progetto → Impostazioni → App web
+     ═══════════════════════════════════════════════════════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // ▼▼▼ SOSTITUISCI QUESTI VALORI CON LE TUE CREDENZIALI FIREBASE ▼▼▼
+    const firebaseConfig = {
+        apiKey: "AIzaSyDZkoKwJ6vKmWYy2p2V_FEadNZBLIiqizs",
+        authDomain: "verso-natura.firebaseapp.com",
+        projectId: "verso-natura",
+        storageBucket: "verso-natura.firebasestorage.app",
+        messagingSenderId: "683623632182",
+        appId: "1:683623632182:web:244a7f9e84aac205cb3797"
+    };
+    // ▲▲▲ FINE CONFIGURAZIONE ▲▲▲
+
+    const PASSWORD = "dialetti2026"; // ← cambia questa password condivisa
+
+    const PAESI = ["Ariola", "Brognaturo", "Simbario"];
+    const PAESE_COLORS = { Ariola: "#c4622d", Brognaturo: "#2e7d4f", Simbario: "#b8912a" };
+    const PAESE_EMOJIS = { Ariola: "🏘️", Brognaturo: "🌲", Simbario: "⛰️" };
+
+    let db;
+    let currentPaese = null;
+    let currentAudio = null;
+    let mediaRecorder, audioChunks = [];
+    let confirmCallback = null;
+    let allTermini = {};
+    let editingTermine = null;
+    let firebaseOk = false;
+
+    try {
+        if (firebaseConfig.apiKey !== "INSERISCI_QUI") {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            firebaseOk = true;
+        }
+    } catch(e) { console.error("Firebase init error:", e); }
+
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loading-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-overlay').style.display = 'none';
+                const saved = sessionStorage.getItem('vnd_session');
+                if (saved) { currentPaese = JSON.parse(saved).paese; startApp(); }
+                else { document.getElementById('login-screen').style.display = 'flex'; }
+            }, 500);
+        }, 1200);
+    });
+
+    window.selectPaese = (btn) => {
+        document.querySelectorAll('.paese-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+    };
+
+    window.doLogin = () => {
+        const pw = document.getElementById('login-password').value;
+        const selected = document.querySelector('.paese-btn.selected');
+        if (!pw || !selected || pw !== PASSWORD) { document.getElementById('login-error').style.display = 'block'; return; }
+        currentPaese = selected.dataset.paese;
+        sessionStorage.setItem('vnd_session', JSON.stringify({ paese: currentPaese }));
+        document.getElementById('login-screen').style.display = 'none';
+        startApp();
+    };
+
+    window.doLogout = () => { sessionStorage.removeItem('vnd_session'); location.reload(); };
+
+    function startApp() {
+        const app = document.getElementById('app');
+        app.style.display = 'flex';
+        app.style.flexDirection = 'column';
+
+        // Inizializza visibilità tab
+        showTab('inserisci');
+
+        document.getElementById('user-paese-name').textContent = PAESE_EMOJIS[currentPaese] + ' ' + currentPaese;
+        document.getElementById('user-paese-dot').style.background = PAESE_COLORS[currentPaese];
+
+        const ind = document.getElementById('paese-indicator-label');
+        ind.textContent = currentPaese;
+        const bgMap = { Ariola: '#fdf0ea', Brognaturo: '#e8f5ee', Simbario: '#faf6e8' };
+        ind.style.background = bgMap[currentPaese];
+        ind.style.color = PAESE_COLORS[currentPaese];
+        ind.style.border = '1px solid ' + PAESE_COLORS[currentPaese] + '66';
+
+        if (!firebaseOk) {
+            document.getElementById('firebase-notice').style.display = 'block';
+            allTermini = JSON.parse(localStorage.getItem('vnd_demo') || '{}');
+            renderArchive();
+        } else {
+            // Test diagnostico: prova a scrivere e leggere da Firestore
+            testFirestore();
+        }
+    }
+
+    async function testFirestore() {
+        const notice = document.getElementById('firebase-notice');
+        try {
+            // Test scrittura
+            const testRef = doc(db, '_test', 'ping');
+            await setDoc(testRef, { ts: Date.now() });
+            // Test lettura
+            const snap = await getDoc(testRef);
+            if (!snap.exists()) throw new Error("Documento test non trovato dopo scrittura");
+            // Tutto ok: avvia listener reale
+            notice.style.display = 'none';
+            listenToTermini();
+        } catch(e) {
+            console.error("Test Firestore fallito:", e.code, e.message);
+            // Firestore non funziona: mostra errore chiaro e usa localStorage
+            allTermini = JSON.parse(localStorage.getItem('vnd_demo') || '{}');
+            renderArchive();
+            notice.style.display = 'block';
+            const isPermission = e.code === 'permission-denied';
+            notice.innerHTML = `<strong>⚠️ Firestore ${isPermission ? 'Regole bloccano accesso' : 'Errore: ' + (e.code || e.message)}</strong><br>
+${isPermission
+    ? `Vai su <a href="https://console.firebase.google.com/project/verso-natura/firestore/rules" target="_blank" style="color:#8b2010;font-weight:700;text-decoration:underline;">Firebase Console → Firestore → Regole</a> e imposta il contenuto qui sotto, poi clicca <strong>Pubblica</strong>:`
+    : `Controlla la connessione e le impostazioni Firebase. Errore: <code>${e.code} — ${e.message}</code>`
+}<br><br>
+<code style="display:block;background:#fff3f0;padding:8px;border-radius:6px;font-size:0.76rem;line-height:1.8;color:#1c1c1a;white-space:pre;">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</code>
+<br><em style="font-size:0.78rem;color:#555;">ℹ️ Nel frattempo i dati vengono salvati <strong>solo su questo dispositivo</strong> (localStorage).</em>
+<br><br><button onclick="location.reload()" style="background:#8b2010;color:white;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.85rem;">🔄 Riprova dopo aver pubblicato le regole</button>`;
+            // Sovrascrivi saveTermine per usare localStorage quando Firebase non funziona
+            firebaseOk = false;
+        }
+    }
+
+    function listenToTermini() {
+        console.log("Avvio onSnapshot Firestore...");
+        onSnapshot(collection(db, 'termini'), (snap) => {
+            console.log("onSnapshot ricevuto, documenti:", snap.size);
+            allTermini = {};
+            snap.forEach(d => {
+                console.log("Documento Firestore id:", d.id, "data:", JSON.stringify(d.data()).substring(0, 200));
+                allTermini[d.id] = d.data();
+            });
+            renderArchive();
+            document.getElementById('firebase-notice').style.display = 'none';
+        }, (err) => {
+            console.error("Firestore onSnapshot error:", err.code, err.message);
+            allTermini = JSON.parse(localStorage.getItem('vnd_demo') || '{}');
+            renderArchive();
+            // Mostra banner con istruzioni permessi
+            const notice = document.getElementById('firebase-notice');
+            notice.style.display = 'block';
+            notice.innerHTML = `<strong>⚠️ Firestore errore: ${err.code || 'sconosciuto'}</strong>
+${err.code === 'permission-denied'
+    ? `Le regole Firestore bloccano l'accesso.`
+    : `Errore: ${err.message}`
+}
+Vai su <a href="https://console.firebase.google.com/project/verso-natura/firestore/rules" target="_blank" style="color:#8b2010;font-weight:700;">Firebase Console → Firestore → Regole</a>
+e imposta:<br><br>
+<code style="display:block;background:#fff3f0;padding:8px;border-radius:6px;font-size:0.76rem;line-height:1.8;color:#1c1c1a;">
+rules_version = '2';<br>
+service cloud.firestore {<br>
+&nbsp;&nbsp;match /databases/{database}/documents {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;match /{document=**} {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow read, write: if true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+</code>
+<br><em style="font-size:0.78rem;color:#555;">ℹ️ Nel frattempo i dati vengono salvati localmente sul dispositivo.</em>`;
+        });
+    }
+
+    window.saveTermine = async () => {
+        const termine = document.getElementById('f_termine').value.trim().toLowerCase();
+        const variante = document.getElementById('f_variante').value.trim();
+        const significato = document.getElementById('f_significato').value.trim();
+        if (!termine || !variante || !significato) { toast("Campi obbligatori mancanti!", "#c0392b"); return; }
+
+        const varianteData = {
+            forma: variante,
+            significati: significato.split(',').map(s => s.trim()),
+            esempio: document.getElementById('f_esempio').value.trim(),
+            traduzione: document.getElementById('f_traduzione').value.trim(),
+            note: document.getElementById('f_note').value.trim(),
+            note_variante: document.getElementById('f_note_variante').value.trim(),
+            audio: null,
+            aggiornato: new Date().toISOString()
+        };
+
+        const proceed = async () => {
+            try {
+                if (firebaseOk) {
+                    // Audio salvato direttamente in Firestore come base64 (aggira Firebase Storage)
+                    // Limite: ~900KB per documento Firestore — se troppo grande, si scarta l'audio
+                    if (currentAudio) {
+                        const approxBytes = currentAudio.length * 0.75;
+                        if (approxBytes < 900000) {
+                            varianteData.audio = currentAudio; // base64 data_url
+                        } else {
+                            console.warn("Audio troppo grande per Firestore, scartato.");
+                            toast("Audio troppo lungo, scartato. Salvo il termine senza audio.", "#b8912a");
+                            await new Promise(r => setTimeout(r, 1800));
+                        }
+                    }
+                    // Salvataggio su Firestore
+                    console.log("Salvataggio Firestore termine:", termine);
+                    const docRef = doc(db, 'termini', termine);
+                    const snap = await getDoc(docRef);
+                    const existing = snap.exists() ? snap.data() : { termine, varianti: {} };
+                    existing.varianti[currentPaese] = varianteData;
+                    await setDoc(docRef, existing);
+                    console.log("Firestore setDoc OK");
+                    // Aggiorna anche allTermini localmente per risposta immediata
+                    allTermini[termine] = existing;
+                    renderArchive();
+                } else {
+                    if (!allTermini[termine]) allTermini[termine] = { termine, varianti: {} };
+                    if (currentAudio) varianteData.audio = currentAudio;
+                    allTermini[termine].varianti[currentPaese] = varianteData;
+                    localStorage.setItem('vnd_demo', JSON.stringify(allTermini));
+                    renderArchive();
+                }
+                toast("Salvato! 🌿", "#2e7d4f");
+                clearAll();
+                showTab('archivio');
+            } catch(e) {
+                console.error("Errore Firestore:", e);
+                toast("Errore: " + (e.code || e.message || e), "#c0392b");
+            }
+        };
+
+        if (allTermini[termine]?.varianti?.[currentPaese]) {
+            openConfirm(`Sovrascrivere la variante di ${currentPaese} per "${termine}"?`, proceed);
+        } else { proceed(); }
+    };
+
+    window.removeVariante = async () => {
+        const termine = document.getElementById('f_termine').value.trim().toLowerCase();
+        if (!termine || !allTermini[termine]) { toast("Nessun termine da eliminare.", "#c0392b"); return; }
+        openConfirm(`Eliminare la variante di ${currentPaese} per "${termine}"?`, async () => {
+            try {
+                if (firebaseOk) {
+                    const docRef = doc(db, 'termini', termine);
+                    const snap = await getDoc(docRef);
+                    if (snap.exists()) {
+                        const data = snap.data();
+                        delete data.varianti[currentPaese];
+                        Object.keys(data.varianti).length === 0 ? await deleteDoc(docRef) : await setDoc(docRef, data);
+                    }
+                } else {
+                    if (allTermini[termine]) {
+                        delete allTermini[termine].varianti[currentPaese];
+                        if (Object.keys(allTermini[termine].varianti).length === 0) delete allTermini[termine];
+                        localStorage.setItem('vnd_demo', JSON.stringify(allTermini));
+                        renderArchive();
+                    }
+                }
+                clearAll(); toast("Eliminato.", "#c0392b");
+            } catch(e) { toast("Errore.", "#c0392b"); }
+        });
+    };
+
+    window.filterArchive = (val) => renderArchive(val);
+
+    function renderArchive(filter = "") {
+        const list = document.getElementById('archive-list');
+        const keys = Object.keys(allTermini).filter(k => k.includes(filter.toLowerCase())).sort();
+        if (keys.length === 0) {
+            list.innerHTML = `<p style="text-align:center;color:var(--text-soft);font-style:italic;margin-top:2rem;">Nessun termine trovato.</p>`;
+            return;
+        }
+        list.innerHTML = keys.map(k => {
+            const t = allTermini[k];
+            if (!t || !t.varianti) return '';
+
+            // Chips paese
+            const chips = PAESI.filter(p => t.varianti[p])
+                .map(p => `<span class="chip chip-${p.toLowerCase()}">${PAESE_EMOJIS[p]} ${p}</span>`).join('');
+
+            // Primo significato (dalla prima variante disponibile)
+            const first = Object.values(t.varianti)[0];
+            const significato = first?.significati?.[0] || '';
+
+            // Righe dialetto: forma + correlati per ogni paese che ha una variante
+            const dialettoRows = PAESI.filter(p => t.varianti[p]).map(p => {
+                const v = t.varianti[p];
+                const color = PAESE_COLORS[p];
+                const correlati = v.note_variante ? `<span class="archive-dialetto-correlati">→ ${v.note_variante}</span>` : '';
+                return `<div class="archive-dialetto-item">
+                    <span style="width:7px;height:7px;border-radius:50%;background:${color};flex-shrink:0;display:inline-block;"></span>
+                    <span class="archive-dialetto-forma" style="color:${color}">${v.forma}</span>
+                    ${correlati}
+                </div>`;
+            }).join(`<span class="archive-dialetto-sep">·</span>`);
+
+            return `<div class="archive-card" data-key="${encodeURIComponent(k)}" onclick="openDetailByKey(this)">
+                <div class="archive-card-top">
+                    <span class="archive-term">${k}</span>
+                    <span class="archive-significato">${significato}</span>
+                </div>
+                <div class="archive-dialetto-row">${dialettoRows}</div>
+                <div class="varianti-chips">${chips}</div>
+            </div>`;
+        }).join('');
+    }
+
+    window.openDetailByKey = (el) => {
+        const k = decodeURIComponent(el.dataset.key);
+        openDetail(k);
+    };
+
+    window.openDetail = (termine) => {
+        const t = allTermini[termine];
+        if (!t) return;
+        document.getElementById('detail-termine').textContent = termine;
+        document.getElementById('detail-chips').innerHTML = PAESI.filter(p => t.varianti?.[p])
+            .map(p => `<span class="chip chip-${p.toLowerCase()}">${PAESE_EMOJIS[p]} ${p}</span>`).join('');
+
+        document.getElementById('detail-varianti').innerHTML = PAESI.map(p => {
+            const v = t.varianti?.[p];
+            const color = PAESE_COLORS[p];
+            const isOwn = p === currentPaese;
+            if (!v) return `<div class="variante-block">
+                <div class="variante-header">
+                    <span class="variante-paese" style="color:${color}">${PAESE_EMOJIS[p]} ${p}</span>
+                    ${isOwn ? `<button class="btn-edit-variante" onclick="editTermine('${termine}')">+ Aggiungi</button>` : ''}
+                </div>
+                <div class="empty-variante">Variante non ancora inserita</div>
+            </div>`;
+            return `<div class="variante-block">
+                <div class="variante-header">
+                    <span class="variante-paese" style="color:${color}">${PAESE_EMOJIS[p]} ${p}</span>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        ${v.audio ? `<button class="btn-play-small" onclick="playURL('${v.audio}')">▶</button>` : ''}
+                        ${isOwn ? `<button class="btn-edit-variante" onclick="editTermine('${termine}')">✏️ Modifica</button>` : ''}
+                    </div>
+                </div>
+                <div class="variante-forma">${v.forma}${v.note_variante ? `<span style="font-size:0.8rem;color:var(--text-soft);font-family:'Crimson Pro',serif;font-style:italic;margin-left:8px;">→ ${v.note_variante}</span>` : ''}</div>
+                <div class="variante-detail">
+                    <strong>Significati:</strong> ${v.significati.join(', ')}<br>
+                    ${v.esempio ? `<strong>Esempio:</strong> ${v.esempio}<br>` : ''}
+                    ${v.traduzione ? `<strong>Traduzione:</strong> ${v.traduzione}<br>` : ''}
+                    ${v.note ? `<strong>Termini correlati (it):</strong> ${v.note}` : ''}
+                </div>
+            </div>`;
+        }).join('');
+
+        document.getElementById('tab-btn-dettaglio').style.removeProperty('display');
+        showTab('dettaglio');
+    };
+
+    window.editTermine = (termine) => {
+        const v = allTermini[termine]?.varianti?.[currentPaese];
+        document.getElementById('f_termine').value = termine;
+        document.getElementById('f_variante').value = v?.forma || '';
+        document.getElementById('f_significato').value = v?.significati?.join(', ') || '';
+        document.getElementById('f_esempio').value = v?.esempio || '';
+        document.getElementById('f_traduzione').value = v?.traduzione || '';
+        document.getElementById('f_note').value = v?.note || '';
+        document.getElementById('f_note_variante').value = v?.note_variante || '';
+        currentAudio = v?.audio || null;
+        updateAudioUI(!!currentAudio);
+        editingTermine = termine;
+        showTab('inserisci');
+    };
+
+    window.playURL = (url) => new Audio(url).play();
+
+    window.handleSearch = () => {};
+    window.doSearch = () => {
+        const val = document.getElementById('searchInput').value.trim().toLowerCase();
+        if (!val) return;
+        if (allTermini[val]) openDetail(val);
+        else { showTab('archivio'); filterArchive(val); document.getElementById('archiveFilter').value = val; }
+    };
+
+    window.goToInsert = () => { clearAll(); showTab('inserisci'); };
+
+    window.showTab = (name) => {
+        ['inserisci','archivio','dettaglio'].forEach(t => {
+            document.getElementById('tab-' + t).classList.toggle('tab-active', t === name);
+            document.getElementById('tab-btn-' + t)?.classList.toggle('active', t === name);
+        });
+        if (name === 'archivio') renderArchive(document.getElementById('archiveFilter').value || '');
+    };
+
+    window.startRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+            mediaRecorder.onstop = () => {
+                const reader = new FileReader();
+                reader.readAsDataURL(new Blob(audioChunks, { type: 'audio/webm' }));
+                reader.onloadend = () => { currentAudio = reader.result; updateAudioUI(true); };
+            };
+            mediaRecorder.start();
+            document.getElementById('recBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'flex';
+            document.getElementById('audioStatus').textContent = 'REC...';
+        } catch(e) { toast("Microfono non disponibile.", "#c0392b"); }
+    };
+
+    window.stopRecording = () => {
+        if (mediaRecorder?.state !== 'inactive') mediaRecorder.stop();
+        document.getElementById('recBtn').style.display = 'flex';
+        document.getElementById('stopBtn').style.display = 'none';
+    };
+
+    window.playAudio = () => { if (currentAudio) new Audio(currentAudio).play(); };
+    window.deleteAudio = () => { currentAudio = null; updateAudioUI(false); };
+
+    function updateAudioUI(has) {
+        document.getElementById('playBtn').classList.toggle('active', has);
+        const st = document.getElementById('audioStatus');
+        st.textContent = has ? 'Audio pronto' : 'Nessun audio';
+        st.className = 'audio-status' + (has ? ' has-audio' : '');
+    }
+
+    window.clearAll = () => {
+        ['f_termine','f_variante','f_significato','f_esempio','f_traduzione','f_note','f_note_variante']
+            .forEach(id => document.getElementById(id).value = '');
+        currentAudio = null; editingTermine = null;
+        updateAudioUI(false);
+    };
+
+    window.openConfirm = (msg, cb) => {
+        document.getElementById('confirm-msg').textContent = msg;
+        document.getElementById('custom-confirm').style.display = 'flex';
+        confirmCallback = cb;
+    };
+
+    document.getElementById('confirm-yes').onclick = () => {
+        document.getElementById('custom-confirm').style.display = 'none';
+        confirmCallback?.();
+    };
+    document.getElementById('confirm-no').onclick = () => {
+        document.getElementById('custom-confirm').style.display = 'none';
+    };
+
+    function toast(msg, color) {
+        const t = document.getElementById('toast');
+        t.textContent = msg; t.style.background = color; t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3000);
+    }
+</script>
+</body>
+</html>
